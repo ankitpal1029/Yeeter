@@ -4,7 +4,7 @@ const colors = {
   spinner: "white",
   link: "white",
   button: "blue",
-  border: "grey",
+  border: "gray.700",
   icon: "white",
   tweetCounterOk: "white",
   tweetCounterBad: "tomato",

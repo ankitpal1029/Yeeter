@@ -40,7 +40,7 @@ export const Layout = ({ user, children }: LayoutProps) => {
         </VStack>
         <Box flex={3}>
           <Head>
-            <title>Social Media</title>
+            <title>Yeeter</title>
             <link rel="icon" href="/favicon.ico" />
           </Head>
           <main>{children}</main>

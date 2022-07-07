@@ -44,7 +44,11 @@ type FeedProps = {
 
 export const Feed = ({ user, isProfile = false }: FeedProps) => {
   return (
-    <List borderBottom={`1px solid ${colors.border}`} minWidth="100%">
+    <List
+      borderBottom={`1px solid`}
+      borderColor={colors.border}
+      minWidth="100%"
+    >
       {!isProfile
         ? tweets.map((tweet) => (
             <FeedItem
