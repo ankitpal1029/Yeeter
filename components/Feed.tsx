@@ -7,32 +7,26 @@ import {
   Avatar,
   Flex,
   Spinner,
+  Image,
 } from "@chakra-ui/react";
-import { addNewTweet } from "../components/Tweet";
 import colors from "../utils/colors";
-// import { fetchUser, createFeedItem, fetchQuote } from "../utils/helpers";
-import { useEffect } from "react";
 import { FeedItemProps } from "../types";
-// import { useStore, api } from "../utils/stores";
-
-// avatarSrc: string;
-// name: string;
-// handle: string;
-// content?: string;
-// uuid?: string;
+// import Image from "next/image";
 let tweets = [
   {
     avatarSrc: "https://i.pravatar.cc/300",
     name: "Adam",
     handle: "Adam69",
-    content: "Yo mum",
+    content:
+      "https://images.unsplash.com/photo-1563612116625-3012372fccce?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2480&q=80",
     uuid: "2",
   },
   {
     avatarSrc: "https://i.pravatar.cc/300",
     name: "Shrrom",
     handle: "Shroom69",
-    content: "Yo mum 69",
+    content:
+      "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2628&q=80",
     uuid: "3",
   },
 ];
@@ -94,9 +88,13 @@ const FeedItem = ({ avatarSrc, name, handle, content }: FeedItemProps) => {
               <Text color={colors.text}>{name}</Text>
               <Text color="gray.400">{handle}</Text>
             </Stack>
-            <Text color={colors.text} marginTop={3}>
-              {content}
-            </Text>
+            <Box py={5}>
+              <Image
+                boxSize={["200px", "300px", "400px"]}
+                src={content}
+                alt="Dan Abramov"
+              />
+            </Box>
           </Stack>
         </Flex>
       </Box>
