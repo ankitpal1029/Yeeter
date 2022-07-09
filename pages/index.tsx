@@ -16,11 +16,8 @@ import { Feed } from "../components/Feed";
 // };
 
 const User: FeedItemProps = {
-  avatarSrc: "https://i.pravatar.cc/300?img=3",
-  name: "yolo",
-  handle: "yolo69",
-  content: "wore",
-  uuid: "12",
+  ipfs: "",
+  address: "",
 };
 
 const Home: NextPage = () => {
