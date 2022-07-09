@@ -9,7 +9,7 @@ import "solidity-coverage";
 import "hardhat-deploy";
 
 dotenv.config();
-const { PRIVATE_KEY, RINKEBY_URL } = process.env;
+const { PRIVATE_KEY, RINKEBY_URL, MUMBAI_URL } = process.env;
 
 // This is a sample Hardhat task. To learn how to create your own go to
 // https://hardhat.org/guides/create-task.html
@@ -37,6 +37,12 @@ const config: HardhatUserConfig = {
       accounts:
         process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
       chainId: 4,
+    },
+    mumbai: {
+      url: MUMBAI_URL,
+      accounts:
+        process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
+      chainId: 80001,
     },
   },
   gasReporter: {
