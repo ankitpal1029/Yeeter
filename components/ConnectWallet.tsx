@@ -15,10 +15,10 @@ export const ConnectWallet = ({ user }: ConnectWalletProps) => {
   return (
     <Stack marginBottom={2} justifyContent="center">
       <Stack isInline>
-        <Avatar src={user.avatarSrc} />
+        <Avatar />
         <Stack>
-          <Text color={colors.text}>{user.name}</Text>
-          <Text color={colors.text}>{user.handle}</Text>
+          <Text color={colors.text}>Yangit69</Text>
+          <Text color={colors.text}>@yangit69</Text>
         </Stack>
       </Stack>
       {connectedAccount ? (

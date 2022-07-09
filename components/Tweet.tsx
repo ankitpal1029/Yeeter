@@ -21,6 +21,7 @@ import {
   Heading,
   Text,
   Spinner,
+  useToast,
 } from "@chakra-ui/react";
 import { motion, useAnimation } from "framer-motion";
 // import { NFTStorage, File } from "nft.storage";
@@ -29,6 +30,7 @@ import { FeedItemProps } from "../types/index";
 import colors from "../utils/colors";
 import { create as ipfsHttpClient } from "ipfs-http-client";
 import { first, second, third } from "../utils/tweet-image-helper";
+import { usePostContext } from "../context/PostContext";
 
 type TweetProps = {
   user: FeedItemProps;
@@ -46,23 +48,6 @@ const tweetState: TweetState = {
   tweetContent: "",
   charCount: 0,
 };
-
-export function addNewTweet(
-  user: FeedItemProps,
-  message: string,
-  tweets: FeedItemProps[]
-): FeedItemProps[] {
-  let empty: FeedItemProps[] = [];
-  if (!tweets) return empty;
-
-  let newTweets = [...tweets];
-  let newTweet: FeedItemProps = {
-    ...user,
-    content: message,
-  };
-  newTweets.unshift(newTweet);
-  return newTweets;
-}
 
 const PreviewImage = forwardRef<BoxProps, typeof Box>((props, ref) => {
   return (
@@ -92,6 +77,8 @@ const client = ipfsHttpClient({ url: "https://ipfs.infura.io:5001/api/v0" });
 export function Tweet({ user, closeModal = null }: TweetProps) {
   const [image, setImage] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
+  const { getSocialMediaContract, connectedAccount } = usePostContext();
+  const toast = useToast();
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e?.target.files?.length) {
@@ -103,6 +90,26 @@ export function Tweet({ user, closeModal = null }: TweetProps) {
   };
 
   const submitTweet = async () => {
+    if (!connectedAccount) {
+      toast({
+        title: "Account not connected",
+        description: "Click on the connect account button first",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+      return;
+    }
+    if (!image) {
+      toast({
+        title: "No image attached",
+        description: "Click on the image upload space and insert an image",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+      return;
+    }
     const added = await client.add(image, {
       progress: (prog) => {
         console.log(`received ${prog}`), setLoading(true);
@@ -114,6 +121,15 @@ export function Tweet({ user, closeModal = null }: TweetProps) {
     }
 
     console.log(added);
+
+    const socialMediaContract = getSocialMediaContract();
+    const response = await socialMediaContract.post({
+      ipfsLink: added.path,
+      posterAddress: connectedAccount,
+    });
+
+    console.log(response);
+
     return;
   };
   const controls = useAnimation();
@@ -129,7 +145,7 @@ export function Tweet({ user, closeModal = null }: TweetProps) {
       boxSizing="content-box"
     >
       <HStack margin={2} p={2}>
-        <Avatar src={user.avatarSrc} />
+        <Avatar />
         <Container my="12">
           {loading ? (
             <Spinner
@@ -244,7 +260,7 @@ type TweetModalProps = {
   user: FeedItemProps;
 };
 
-export function TweetModal({ user }: TweetModalProps) {
+export const TweetModal = ({ user }: TweetModalProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
@@ -275,4 +291,4 @@ export function TweetModal({ user }: TweetModalProps) {
       </Modal>
     </>
   );
-}
+};

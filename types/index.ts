@@ -19,12 +19,16 @@ export interface Users {
 }
 
 export type FeedItemProps = {
-  avatarSrc: string;
-  name: string;
-  handle: string;
-  content?: string;
-  uuid?: string;
+  ipfs: string;
+  address: string;
 };
+// export type FeedItemProps = {
+//   avatarSrc: string;
+//   name: string;
+//   handle: string;
+//   content?: string;
+//   uuid?: string;
+// };
 
 export interface HnStory {
   by: string;
@@ -45,4 +49,9 @@ export interface KanyeQuote {
 export interface Set {
   json: FeedItemProps[];
   fetch: () => void;
+}
+
+export interface IFeedTweet {
+  ipfs: string;
+  address: string;
 }

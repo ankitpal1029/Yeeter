@@ -7,6 +7,9 @@ import {
 } from "react";
 import { ethers } from "ethers";
 import { socialMediaAddress, socialMediaContract } from "../utils/constants";
+// import { SocialMedia } from "../hardhat/typechain";
+import { SocialMedia, SocialMedia__factory } from "../types/typechain";
+import { IFeedTweet } from "../types";
 
 declare global {
   interface Window {
@@ -17,7 +20,7 @@ declare global {
 interface IPostContext {
   connectWallet: () => void;
   connectedAccount: string;
-  getSocialMediaContract: () => ethers.Contract;
+  getSocialMediaContract: () => SocialMedia;
   isLoading: boolean;
 }
 
@@ -26,9 +29,8 @@ export const PostContext = createContext<IPostContext>({
   connectedAccount: "",
   getSocialMediaContract: () => {
     const { ethereum } = window;
-    return new ethers.Contract(
+    return SocialMedia__factory.connect(
       "0x0",
-      socialMediaContract,
       new ethers.providers.Web3Provider(ethereum)
     );
   },
@@ -55,7 +57,6 @@ export const PostProvider = ({ children }: { children: ReactNode }) => {
       } else {
         console.log("No Accounts found");
       }
-      console.log(accounts);
     } catch (error) {
       console.error(error);
 
@@ -81,16 +82,15 @@ export const PostProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const getSocialMediaContract = () => {
+  const getSocialMediaContract = (): SocialMedia => {
     console.log(window.ethereum);
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
-    const SocialMediaContract = new ethers.Contract(
+    const SocialMediaContract = SocialMedia__factory.connect(
       socialMediaAddress,
-      socialMediaContract,
       signer
     );
-    console.log({ SocialMediaContract });
+    console.log(SocialMediaContract);
     return SocialMediaContract;
   };
 
