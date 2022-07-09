@@ -1,4 +1,10 @@
-import { createContext, ReactNode, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { ethers } from "ethers";
 import { socialMediaAddress, socialMediaContract } from "../utils/constants";
 
@@ -29,11 +35,13 @@ export const PostContext = createContext<IPostContext>({
   isLoading: false,
 });
 
+export const usePostContext = () => useContext(PostContext);
 export const PostProvider = ({ children }: { children: ReactNode }) => {
   const [connectedAccount, setConnectedAccount] = useState<string>("");
   const [isLoading, setLoading] = useState<boolean>(false);
 
   const isWalletConnected = async () => {
+    console.log("Checking if wallet connected...");
     if (!window.ethereum) {
       return alert("Please Install metamask");
     }
@@ -51,7 +59,8 @@ export const PostProvider = ({ children }: { children: ReactNode }) => {
     } catch (error) {
       console.error(error);
 
-      throw new Error("No Ethereum object");
+      // throw new Error();
+      console.log("No Ethereum object");
     }
   };
 
@@ -68,7 +77,7 @@ export const PostProvider = ({ children }: { children: ReactNode }) => {
       console.log("set account", accounts[0]);
     } catch (err) {
       console.warn(err);
-      throw new Error("No Ethereum object");
+      // throw new Error("No Ethereum object");
     }
   };
 
@@ -84,6 +93,10 @@ export const PostProvider = ({ children }: { children: ReactNode }) => {
     console.log({ SocialMediaContract });
     return SocialMediaContract;
   };
+
+  useEffect(() => {
+    isWalletConnected();
+  }, []);
   return (
     <PostContext.Provider
       value={{

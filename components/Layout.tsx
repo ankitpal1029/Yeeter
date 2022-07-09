@@ -2,7 +2,7 @@ import Head from "next/head";
 import { ReactNode } from "react";
 import { Box, Flex, VStack } from "@chakra-ui/react";
 import { Menu } from "../components/Menu";
-import { UserLogout } from "../components/UserLogout";
+import { ConnectWallet } from "../components/ConnectWallet";
 import { TweetModal } from "./Tweet";
 import { FeedItemProps } from "../types";
 
@@ -32,9 +32,9 @@ export const Layout = ({ user, children }: LayoutProps) => {
         >
           <Box position="fixed" marginLeft={5}>
             <Menu />
-            <TweetModal user={user} />
+            {/* <TweetModal user={user} /> */}
             <Box pos="fixed" bottom={0}>
-              <UserLogout user={user} />
+              <ConnectWallet user={user} />
             </Box>
           </Box>
         </VStack>
