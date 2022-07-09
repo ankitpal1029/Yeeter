@@ -1,0 +1,35 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "contracts/SocialMedia.sol": {
+      "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.0;\n\ncontract SocialMedia {\n    constructor() {}\n\n    struct Post {\n        address posterAddress;\n        string ipfsLink;\n    }\n\n    Post[] posts;\n    event PostAppended(Post _newPost, Post[] _allPosts);\n\n    function post(Post calldata _newPost) external {\n        posts.push(\n            Post({\n                posterAddress: _newPost.posterAddress,\n                ipfsLink: _newPost.ipfsLink\n            })\n        );\n        emit PostAppended(_newPost, posts);\n    }\n\n    function allPosts() external view returns (Post[] memory) {\n        return posts;\n    }\n}\n"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": false,
+      "runs": 200
+    },
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "evm.methodIdentifiers",
+          "metadata",
+          "devdoc",
+          "userdoc",
+          "storageLayout",
+          "evm.gasEstimates"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}
